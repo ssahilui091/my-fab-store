@@ -3,7 +3,6 @@ import {
   useContext,
   useState,
   useEffect,
-  useCallback,
   ReactNode,
 } from "react";
 import { useFetch } from "use-http";
@@ -24,7 +23,7 @@ export const AppContextProvider = (props: { children: ReactNode }) => {
 
   const { request } = useFetch<string[]>("https://fakestoreapi.com");
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     setLoading(true);
     setError(null);
 
@@ -36,11 +35,10 @@ export const AppContextProvider = (props: { children: ReactNode }) => {
     } finally {
       setLoading(false);
     }
-  }, [request.get]);
-
+  }
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   const value: ContextType = {
     categoryData,
